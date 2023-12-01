@@ -115,6 +115,45 @@ namespace Ejemplo1.Controllers
             return NoContent();
         }
 
+        [HttpGet("GetByName/{name}")]
+        public List<Invoice> GetInvoiceByName(string name)
+        {
+            var invoice = _context.Invoices
+                .Include(i => i.Customer)
+                .Where(i => i.Customer.FirstName.Contains(name))
+                .OrderByDescending(i => i.Customer.FirstName)
+                .OrderByDescending(i => i.InvoiceNumber)
+                .ToList();
+            return invoice;
+        }
+
+        [HttpGet("GetByInvoiceNumber/{invoiceNumber}")]
+        public List<Details> GetByInvoiceNumber(string invoiceNumber)
+        {
+            var details = _context.Details
+                .Include(i => i.Invoice)
+                .Include(i => i.Invoice.Customer)
+                .Where(i => i.Invoice.InvoiceNumber.Contains(invoiceNumber))
+                .OrderByDescending(i => i.Invoice.Customer.FirstName)
+                .OrderByDescending(i => i.Invoice.InvoiceNumber)
+                .ToList();
+            return details;
+
+        }
+
+        [HttpGet("GetByInvoiceDate/{dateInvoice}")]
+        public List<Details> GetByInvoiceDate(DateTime dateInvoice)
+        {
+            var details = _context.Details
+                .Include(i => i.Invoice)
+                .Include(i => i.Product)
+                .Where(i => i.Invoice.Date.Date == dateInvoice.Date)
+                .OrderBy(i => i.Invoice.Date)
+                .OrderBy(i => i.Product)
+                .ToList();
+            return details;
+        }
+
         private bool InvoiceExists(int id)
         {
             return (_context.Invoices?.Any(e => e.InvoiceId == id)).GetValueOrDefault();
