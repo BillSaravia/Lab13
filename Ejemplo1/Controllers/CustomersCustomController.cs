@@ -29,7 +29,7 @@ namespace Ejemplo1.Controllers
         }
 
         [HttpPost]
-        public void Insert(CustomerRequestV1 request)
+        public void Insert(RequestV1Customer request)
         {
             Customer model = new Customer();
             model.FirstName = request.FirstName;
@@ -41,7 +41,7 @@ namespace Ejemplo1.Controllers
         }
 
         [HttpPost]
-        public void DeleteCustomer(CustomerRequestV2 request)
+        public void DeleteCustomer(RequestV2Customer request)
         {
             var model = _context.Customers.Find(request.CustomerID);
             _context.Entry(model).State = EntityState.Modified;
@@ -49,14 +49,5 @@ namespace Ejemplo1.Controllers
             _context.SaveChanges();
         }
 
-        [HttpPost]
-        public void UpdateNumberDoc(CustomerRequestV3 request)
-        {
-            var model = _context.Customers.Find(request.CustomerID);
-            _context.Entry(model).State = EntityState.Modified;
-            model.DocumentNumber = request.DocumentNumber;
-
-            _context.SaveChanges();// confirmacion o commit
-        }
     }
 }
