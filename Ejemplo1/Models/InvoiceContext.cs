@@ -4,13 +4,14 @@ namespace Ejemplo1.Models
 {
     public class InvoiceContext : DbContext
     {
+        public InvoiceContext(DbContextOptions<InvoiceContext> options) : base(options)
+        {
 
-        public InvoiceContext(DbContextOptions<InvoiceContext> options) : base(options) { }
-
-        public DbSet<Product> Products { get; set; }
+        }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Details> Details { get; set; }
+        public DbSet<Detail> Details { get; set; }
 
     }
 }
